@@ -1,0 +1,19 @@
+{
+  "name": "wetube",
+  "version": "1.0.0",
+  "description": "The best way to watch videos",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NwebMyosotis/wetube-reloaded.git"
+  },
+  "scripts": {
+    "win": "node index.js"
+  },
+  "author": "Mysotis<dynamickid@naver.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/NwebMyosotis/wetube-reloaded/issues"
+  },
+  "homepage": "https://github.com/NwebMyosotis/wetube-reloaded#readme"
+}
