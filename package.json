@@ -3,12 +3,13 @@
   "version": "1.0.0",
   "description": "The best way to watch videos",
   "main": "index.js",
+  "type": "module",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/NwebMyosotis/wetube-reloaded.git"
   },
   "scripts": {
-    "win": "node index.js"
+    "dev": "nodemon --exec babel-node src/server.js"
   },
   "author": "Mysotis<dynamickid@naver.com>",
   "license": "MIT",
@@ -21,6 +22,8 @@
   },
   "devDependencies": {
     "@babel/core": "^7.19.0",
-    "@babel/preset-env": "^7.19.0"
+    "@babel/node": "^7.18.10",
+    "@babel/preset-env": "^7.19.0",
+    "nodemon": "^2.0.19"
   }
 }
