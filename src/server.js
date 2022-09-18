@@ -1,38 +1,26 @@
 import express from "express";
 // const express = require("express"); 와 같으나 위에가 더 최신 문법임.
-// node_modules의 "express"에서 express패키지를 찾아 파일에서 활용할 수 있도록 가져옴.
+// node_modules의 "express"에서 express패키지를 찾아 파일에서 활용할 수 있도록 가져옴. 즉 from "express"는 정확히 말하면 node_modules/express임
 const PORT = 4000;
 const app = express();
 
 // express() 아래에 와야함. 순서에 유의.
 
-const priavteMiddleware = (req, res, next) => {
-  const url = req.url;
-  if (url === "/protected") {
-    return res.send("<h1>Not Allowed</h1>");
-  } else {
-    console.log("Allowed, you may continue.");
-    next();
-  }
-};
+const globalRouter = express.Router();
+const handleHome = (req, res) => res.send("Home");
+globalRouter.get("/home", handleHome);
 
-const handleProtect = (req, res) => {
-  return res.send("Welcome to the private lounge.");
-};
+const userRouter = express.Router();
+const handleEditUser = (req, res) => res.send("Edit user");
+userRouter.get("/edit", handleEditUser);
 
-const logger = (req, res, next) => {
-  console.log(`${req.method} ${req.url}`);
-  next();
-};
+const videoRouter = express.Router();
+const handleWatch = (req, res) => res.send("Watch video");
+videoRouter.get("/watch", handleWatch);
 
-const handleHome = (req, res) => {
-  return res.send("It's not middleware");
-};
-
-// app.use(logger);
-app.use(priavteMiddleware);
-app.get("/", logger, handleHome);
-app.get("/protected", logger, handleProtect);
+app.use("/", globalRouter);
+app.use("/users", userRouter);
+app.use("/videos", videoRouter);
 
 const handleListening = () =>
   console.log(`✅ Server listening on port http://localhost:${PORT} 🚀`);
