@@ -9,13 +9,14 @@
 
 <!-- users router -->
 
-/users/edit -> Edit user profile
-/users/delete -> Delete user profile
+/users/:id -> See users
+/users/logout -> Log Out
+/users/edit -> Edit MY Profile
+/users/delete -> Delete My Profile
 
 <!-- video router -->
 
-/videos/watch -> Watch video
-/videos/edit -> edit video
-/videos/delete -> delete video
-/videos/comments -> Comment on a video
-/videos/comments/delete -> Delete a comment of a video
+/videos/:id -> See video
+/videos/:id/edit -> edit video
+/videos/:id/delete -> delete video
+/videos/upload -> upload video
