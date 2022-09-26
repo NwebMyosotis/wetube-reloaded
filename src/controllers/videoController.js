@@ -27,7 +27,11 @@ let videos = [
 
 export const trending = (req, res) =>
   res.render("home", { pageTitle: "Home", videos });
-export const see = (req, res) => res.render("watch");
+export const see = (req, res) => {
+  const { id } = req.params; // const id = req.params.id 와 같음. es6 문법.
+  const video = videos[id - 1];
+  return res.render("watch", { pageTitle: `Watching ${video.title}` });
+};
 export const edit = (req, res) => res.render("edit");
 export const search = (req, res) => res.send("Search");
 export const upload = (req, res) => res.send("Upload");
