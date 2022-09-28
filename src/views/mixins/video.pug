@@ -5,5 +5,6 @@ mixin videoMixin(video)
         ul 
             li Rating: #{video.rating}/5.
             li #{video.comments} comments. 
-            li Posted #{video.createAt}.
-            li #{video.views} views.  
+            li Posted #{video.createdAt}.
+            li #{video.views} views.
+            li #{video.id}
