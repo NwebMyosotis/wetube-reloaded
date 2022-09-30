@@ -1,9 +1,25 @@
 import Video from "../models/Video.js";
 
-export const home = (req, res) => {
-  Video.find({}, (error, videos) => {
-    return res.render("home", { pageTitle: "Home", videos });
+/* <callback 방식>
+Video.find({}, (error, videos) => {
+    return res.render("home", { pageTitle: "Home", videos }); (retrun은 여기선 별 역할을 하지 않는다)(callback은 return이 필요없음))
   });
+*/
+
+/* promise error
+export const home = async (req, res) => {
+  try {
+    const videos = await Video.find({});
+    return res.render("home", { pageTitle: "Home", videos });
+  } catch {
+    return res.render("server-error");
+  }
+};
+*/
+
+export const home = async (req, res) => {
+  const videos = await Video.find({});
+  return res.render("home", { pageTitle: "Home", videos });
 };
 
 export const watch = (req, res) => {
@@ -25,7 +41,17 @@ export const postEdit = (req, res) => {
 export const getUpload = (req, res) => {
   return res.render("upload", { pageTitle: "Upload Video" });
 };
-export const postUpload = (req, res) => {
-  const { title } = req.body;
+export const postUpload = async (req, res) => {
+  const { title, description, hashtags } = req.body;
+  await Video.create({
+    title,
+    description,
+    createdAt: Date.now(),
+    hashtags: hashtags.split(",").map((word) => `#${word}`),
+    meta: {
+      views: 0,
+      rating: 0,
+    },
+  });
   return res.redirect("/");
 };
