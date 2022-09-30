@@ -9,7 +9,7 @@
     "url": "git+https://github.com/NwebMyosotis/wetube-reloaded.git"
   },
   "scripts": {
-    "dev": "nodemon --exec babel-node src/server.js"
+    "dev": "nodemon --exec babel-node src/init.js"
   },
   "author": "Mysotis<dynamickid@naver.com>",
   "license": "MIT",
