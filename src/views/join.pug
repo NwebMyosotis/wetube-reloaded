@@ -1,0 +1,12 @@
+extends base.pug
+
+block content
+    span=errorMessage
+    form(method="POST")
+        input(name="email", type="email", required, placeholder="Email")
+        input(name="username", type="text", required, placeholder="Username")
+        input(name="password", type="password", required, placeholder="Password")
+        input(name="password2", type="password", required, placeholder="Confirm Password")
+        input(name="name", type="text", required, placeholder="Name")
+        input(name="location", type="text", placeholder="Location")
+        input(type="submit" value="Create Account")
