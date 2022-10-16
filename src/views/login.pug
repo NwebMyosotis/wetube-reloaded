@@ -1,0 +1,12 @@
+extends base.pug
+
+block content
+    span=errorMessage
+    form(method="POST")
+        input(name="username", type="text", required, placeholder="Username")
+        input(name="password", type="password", required, placeholder="Password")
+        input(type="submit" value="Login")
+    br
+    div
+        span Don't have an account? 
+        a(href="/join") Create now &rarr;
