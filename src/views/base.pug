@@ -1,7 +1,7 @@
 doctype html
 html(lang="kr")
     head
-        title #{pageTitle} | Wetube
+        title #{pageTitle} | #{siteName}
         link(rel="stylesheet" href="https://unpkg.com/mvp.css")
     body
         header 
@@ -14,10 +14,16 @@ html(lang="kr")
                         a(href="/") Home 
                     li 
                         a(href="/search") Search
-                    li 
-                        a(href="/join") Join
-                    li
-                        a(href="/login") Login
+                    if loggedIn
+                        li
+                            a(href="/log-out") LogOut
+                        li 
+                            a(href="/my-profile") #{loggedInUser.name}
+                    else    
+                        li 
+                            a(href="/join") Join
+                        li
+                            a(href="/login") Login
         main
             block content 
     include partials/footer.pug
