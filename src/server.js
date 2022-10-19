@@ -1,5 +1,6 @@
 import express from "express";
 import session from "express-session";
+import MongoStore from "connect-mongo";
 // const express = require("express"); 와 같으나 위에가 더 최신 문법임.
 // node_modules의 "express"에서 express패키지를 찾아 파일에서 활용할 수 있도록 가져옴. 즉 from "express"는 정확히 말하면 node_modules/express임
 import morgan from "morgan";
@@ -21,8 +22,12 @@ app.use(express.urlencoded({ extended: true }));
 app.use(
   session({
     secret: "Hello!",
-    resave: true,
-    saveUninitialized: true,
+    resave: false,
+    saveUninitialized: false,
+    store: MongoStore.create({ mongoUrl: "mongodb://127.0.0.1:27017/wetube" }),
+    cookie: {
+      maxAge: 86400000,
+    },
   })
 );
 
