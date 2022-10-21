@@ -97,14 +97,48 @@ export const finishGithubLogin = async (req, res) => {
   // const json = await data.json(); //fetch는 단독으로는 사용할 수 없고 응답을 텍스트나 json 등으로 변환해야함. 여기서는 json.
   if ("access_token" in tokenRequest) {
     const { access_token } = tokenRequest;
-    const userRequest = await (
-      await fetch("https://api.github.com/user", {
+    const apiUrl = "https://api.github.com"; //api키가 반복되기에 따로 선언한 것
+    const userData = await (
+      await fetch(`${apiUrl}/user`, {
+        //GET해야하기에 method는 생략해도 됨
         headers: {
           Authorization: `token ${access_token}`,
         },
       })
     ).json();
-    console.log(userRequest);
+    console.log(userData);
+    const emailData = await (
+      await fetch(`${apiUrl}/user/emails`, {
+        //user:email을 불러옴
+        headers: {
+          Authorization: `token ${access_token}`,
+        },
+      })
+    ).json();
+    const emailObj = emailData.find(
+      (email) => email.primary === true && email.verified === true
+    );
+    if (!emailObj) {
+      return res.redirect("login");
+    }
+    const existingUser = await User.findOne({ email: emailObj.email });
+    if (existingUser) {
+      req.session.loggedIn = true;
+      req.session.user = existingUser;
+      return res.redirect("/");
+    } else {
+      const user = await User.create({
+        email: emailObj.email,
+        socialOnly: true,
+        username: userData.login,
+        password: " ",
+        name: userData.name,
+        location: userData.location,
+      });
+      req.session.loggedIn = true;
+      req.session.user = user;
+      return res.redirect("/");
+    }
   } else {
     return res.redirect("/login");
   }
