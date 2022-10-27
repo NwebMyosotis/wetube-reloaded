@@ -95,7 +95,7 @@ export const finishGithubLogin = async (req, res) => {
         Accept: "application/json", // 이 부분이 없으면 github가 text로 응답함
       },
     })
-  ).json(); // const json = await data.json(); //fetch는 단독으로는 사용할 수 없고 응답을 텍스트나 json 등으로 변환해야함. 여기서는 json.
+  ).json(); //fetch는 단독으로는 사용할 수 없고 응답을 텍스트나 json 등으로 변환해야함. 여기서는 json.
   if ("access_token" in tokenRequest) {
     // 깃 허브는 우리에게 access_token을 제공, github api와 상호작용하는데 사용됨.
     const { access_token } = tokenRequest;
@@ -138,6 +138,68 @@ export const finishGithubLogin = async (req, res) => {
       });
     }
     //로그인 구현
+    req.session.loggedIn = true;
+    req.session.user = user;
+    return res.redirect("/");
+  } else {
+    return res.redirect("/login");
+  }
+};
+
+export const startKakaoLogin = (req, res) => {
+  const baseUrl = "https://kauth.kakao.com/oauth/authorize";
+  const config = {
+    client_id: "7ad1342c4ad133b59e89bb0955585168",
+    redirect_uri: `http://localhost:4000/users/kakao/finish`,
+    response_type: "code",
+  };
+  const params = new URLSearchParams(config).toString();
+  const finalUrl = `${baseUrl}?${params}`;
+  return res.redirect(finalUrl);
+};
+
+export const finishKakaoLogin = async (req, res) => {
+  const baseUrl = "https://kauth.kakao.com/oauth/token";
+  const config = {
+    grant_type: "authorization_code",
+    client_id: "7ad1342c4ad133b59e89bb0955585168",
+    redirect_uri: `http://localhost:4000/users/kakao/finish`,
+    code: req.query.code,
+  };
+  const params = new URLSearchParams(config).toString();
+  const finalUrl = `${baseUrl}?${params}`;
+  const tokenRequest = await (
+    await fetch(finalUrl, {
+      method: "POST",
+    })
+  ).json();
+  console.log(tokenRequest);
+
+  if ("access_token" in tokenRequest) {
+    const { access_token } = tokenRequest;
+    const apiUrl = "https://kapi.kakao.com";
+    const userData = await (
+      await fetch(`${apiUrl}/v2/user/me`, {
+        headers: {
+          Authorization: `Bearer ${access_token}`,
+        },
+      })
+    ).json();
+    console.log("userData", userData);
+
+    const username = userData.kakao_account.profile.nickname;
+    const userEmail = userData.kakao_account.email;
+
+    let user = await User.findOne({ email: userEmail });
+    if (!user) {
+      user = await User.create({
+        email: userEmail,
+        socialOnly: true,
+        username,
+        password: "",
+        name: username,
+      });
+    }
     req.session.loggedIn = true;
     req.session.user = user;
     return res.redirect("/");
