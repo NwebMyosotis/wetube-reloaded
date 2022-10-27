@@ -135,6 +135,7 @@ export const finishGithubLogin = async (req, res) => {
         password: "",
         name: userData.name,
         location: userData.location,
+        avatarUrl: userData.avatar_url,
       });
     }
     //로그인 구현
@@ -198,6 +199,7 @@ export const finishKakaoLogin = async (req, res) => {
         username,
         password: "",
         name: username,
+        avatarUrl: userData.kakao_account.profile.rofile_image_url,
       });
     }
     req.session.loggedIn = true;
@@ -208,7 +210,13 @@ export const finishKakaoLogin = async (req, res) => {
   }
 };
 
-export const edit = (req, res) => res.send("Edit User");
+export const getEdit = (req, res) => {
+  return res.render("edit-profile", { pageTitle: "User Profile" });
+};
+
+export const postEdit = (req, res) => {
+  return res.render("edit-profile", { pageTitle: "User Profile" });
+};
 
 export const logout = (req, res) => {
   //로그아웃. 세션제거.

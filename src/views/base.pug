@@ -15,10 +15,10 @@ html(lang="kr")
                     li 
                         a(href="/search") Search
                     if loggedIn
+                        li 
+                            a(href="/users/edit") Edit Profile
                         li
                             a(href="/users/logout") LogOut
-                        li 
-                            a(href="/my-profile") #{loggedInUser.name}
                     else    
                         li 
                             a(href="/join") Join
