@@ -2,19 +2,19 @@ doctype html
 html(lang="kr")
     head
         title #{pageTitle} | #{siteName}
-        link(rel="stylesheet" href="https://unpkg.com/mvp.css")
+        link(rel="stylesheet" href="https://unpkg.com/mvp.css@1.12/mvp.css")
     body
         header 
             h1=pageTitle
             nav
                 ul
                     li 
-                        a(href="/videos/upload") Upload video
-                    li 
                         a(href="/") Home 
                     li 
                         a(href="/search") Search
                     if loggedIn
+                        li 
+                            a(href="/videos/upload") Upload video
                         li 
                             a(href="/users/edit") Edit Profile
                         li

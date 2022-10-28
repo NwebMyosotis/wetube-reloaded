@@ -191,7 +191,7 @@ export const finishKakaoLogin = async (req, res) => {
     const username = userData.kakao_account.profile.nickname;
     const userEmail = userData.kakao_account.email;
 
-    let user = await User.findOne({ email: userEmail });
+    const user = await User.findOne({ email: userEmail });
     if (!user) {
       user = await User.create({
         email: userEmail,
@@ -214,8 +214,46 @@ export const getEdit = (req, res) => {
   return res.render("edit-profile", { pageTitle: "User Profile" });
 };
 
-export const postEdit = (req, res) => {
-  return res.render("edit-profile", { pageTitle: "User Profile" });
+export const postEdit = async (req, res) => {
+  const {
+    session: {
+      user: { _id },
+    },
+    body: { name, username, email, location },
+  } = req;
+
+  const usernameCheck = username !== req.session.user.username;
+  const emailCheck = email !== req.session.user.email;
+  const findUsername = await User.exists({ username });
+  const findEmail = await User.exists({ email });
+  if (usernameCheck && findUsername) {
+    return res.render("edit-profile", {
+      pageTitle: "Edit Profile",
+      errorMessage: "This username is already taken.",
+    });
+  } else if (emailCheck && findEmail) {
+    return res.render("edit-profile", {
+      pageTitle: "Edit Profile",
+      errorMessage: "This email is already taken.",
+    });
+  } else if (req.session.user.socialOnly === true) {
+    return res.render("edit-profile", {
+      pageTitle: "Edit Profile",
+      errorMessage: "Social account can't change email",
+    });
+  }
+  const upadateUser = await User.findByIdAndUpdate(
+    _id,
+    {
+      name,
+      username,
+      email,
+      location,
+    },
+    { new: true }
+  );
+  req.session.user = upadateUser;
+  return res.redirect("/users/edit");
 };
 
 export const logout = (req, res) => {
