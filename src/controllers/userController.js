@@ -224,6 +224,7 @@ export const postEdit = async (req, res) => {
 
   const usernameCheck = username !== req.session.user.username;
   const emailCheck = email !== req.session.user.email;
+  const socialOnlyCheck = req.session.user.socialOnly;
   const findUsername = await User.exists({ username });
   const findEmail = await User.exists({ email });
   if (usernameCheck && findUsername) {
@@ -232,15 +233,17 @@ export const postEdit = async (req, res) => {
       errorMessage: "This username is already taken.",
     });
   } else if (emailCheck && findEmail) {
-    return res.render("edit-profile", {
-      pageTitle: "Edit Profile",
-      errorMessage: "This email is already taken.",
-    });
-  } else if (req.session.user.socialOnly === true) {
-    return res.render("edit-profile", {
-      pageTitle: "Edit Profile",
-      errorMessage: "Social account can't change email",
-    });
+    if (socialOnlyCheck === false) {
+      return res.render("edit-profile", {
+        pageTitle: "Edit Profile",
+        errorMessage: "This email is already taken.",
+      });
+    } else {
+      return res.render("edit-profile", {
+        pageTitle: "Edit Profile",
+        errorMessage: "Social account can't change email",
+      });
+    }
   }
   const upadateUser = await User.findByIdAndUpdate(
     _id,
