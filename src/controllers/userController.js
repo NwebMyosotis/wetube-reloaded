@@ -245,6 +245,12 @@ export const postEdit = async (req, res) => {
       });
     }
   }
+  if (emailCheck && socialOnlyCheck === true) {
+    return res.render("edit-profile", {
+      pageTitle: "Edit Profile",
+      errorMessage: "Social account can't change email",
+    });
+  }
   const upadateUser = await User.findByIdAndUpdate(
     _id,
     {
