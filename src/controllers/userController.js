@@ -238,11 +238,6 @@ export const postEdit = async (req, res) => {
         pageTitle: "Edit Profile",
         errorMessage: "This email is already taken.",
       });
-    } else {
-      return res.render("edit-profile", {
-        pageTitle: "Edit Profile",
-        errorMessage: "Social account can't change email",
-      });
     }
   }
   if (emailCheck && socialOnlyCheck === true) {
