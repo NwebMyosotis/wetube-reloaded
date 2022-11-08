@@ -8,6 +8,8 @@ import {
   startKakaoLogin,
   finishKakaoLogin,
   postEdit,
+  getChangePassword,
+  postChangePassword,
 } from "../controllers/userController.js";
 import { protectorMiddleware, publicOnlyMiddleware } from "../middleware.js";
 
@@ -22,5 +24,11 @@ userRouter.get("/github/start", publicOnlyMiddleware, startGithubLogin);
 userRouter.get("/github/finish", publicOnlyMiddleware, finishGithubLogin);
 userRouter.get("/kakao/start", publicOnlyMiddleware, startKakaoLogin);
 userRouter.get("/kakao/finish", publicOnlyMiddleware, finishKakaoLogin);
+
+userRouter
+  .route("/change-password")
+  .all(protectorMiddleware)
+  .get(getChangePassword)
+  .post(postChangePassword);
 
 export default userRouter;
