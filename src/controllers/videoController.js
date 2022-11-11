@@ -1,4 +1,5 @@
 import Video from "../models/Video.js";
+import User from "../models/User.js";
 
 /* <callback 방식>
 Video.find({}, (error, videos) => {
@@ -25,12 +26,13 @@ export const home = async (req, res) => {
 export const watch = async (req, res) => {
   const { id } = req.params; // const id = req.params.id 와 같음. es6 문법.
   const video = await Video.findById(id);
+  const user = await User.findById(video.owner);
   if (!video) {
     return res
       .status(404)
       .render("404", { pageTitle: `404 | Video Not Found` });
   }
-  return res.render("watch", { pageTitle: video.title, video });
+  return res.render("watch", { pageTitle: video.title, video, user });
 };
 
 export const getEdit = async (req, res) => {
@@ -67,10 +69,14 @@ export const getUpload = (req, res) => {
 };
 
 export const postUpload = async (req, res) => {
+  const {
+    user: { _id },
+  } = req.session;
   const { path: fileUrl } = req.file; //es6문법, videoUrl을 치면 req.file.path가 실행됨.
   const { title, description, hashtags } = req.body;
   try {
     await Video.create({
+      owner: _id,
       fileUrl,
       title,
       description,
