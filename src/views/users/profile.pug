@@ -2,7 +2,7 @@ extends ../base.pug
 include ../mixins/video.pug
 
 block content 
-    each video in videos
+    each video in user.videos
         +videoMixin(video)
     else 
         li Sorry Nothing Found.
