@@ -9,8 +9,8 @@
     "url": "git+https://github.com/NwebMyosotis/wetube-reloaded.git"
   },
   "scripts": {
-    "dev": "nodemon --exec babel-node src/init.js",
-    "assets": "webpack --config webpack.config.cjs"
+    "dev:server": "nodemon",
+    "dev:assets": "webpack"
   },
   "author": "Mysotis<dynamickid@naver.com>",
   "license": "MIT",
@@ -36,6 +36,7 @@
     "@babel/preset-env": "^7.19.0",
     "babel-loader": "^9.1.0",
     "css-loader": "^6.7.2",
+    "mini-css-extract-plugin": "^2.7.0",
     "nodemon": "^2.0.19",
     "sass": "^1.56.1",
     "sass-loader": "^13.2.0",
