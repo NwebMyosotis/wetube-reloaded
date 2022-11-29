@@ -1,16 +1,18 @@
 extends base.pug
 
 block content
-    span=errorMessage
-    form(method="POST")
-        input(name="username", type="text", required, placeholder="Username")
-        input(name="password", type="password", required, placeholder="Password")
-        input(type="submit" value="Login")
-        br
-        a(href="/users/github/start") Continue with GitHub &rarr;
-        br
-        a(href="/users/kakao/start") Continue with Kakao &rarr;
-    hr
-    div
-        span Don't have an account? 
-        a(href="/join") Create now &rarr;
+    div#login-page
+        span=errorMessage
+        form#login-form(method="POST")
+            input.input-text(name="username", type="text", required, placeholder="Username")
+            input.input-text(name="password", type="password", required, placeholder="Password")
+            input.input-button(type="submit" value="Login")
+            br
+            a#login-github(href="/users/github/start") Continue with GitHub
+                i(class="fa-brands fa-github")
+            br
+            a#login-kakao(href="/users/kakao/start") Continue with Kakao
+                i(class="fa-solid fa-comment")
+        div#join-anchor
+            span Don't have an account? 
+            a(href="/join") Create now &rarr;

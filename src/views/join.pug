@@ -1,16 +1,16 @@
 extends base.pug
 
 block content
-    span=errorMessage
-    form(method="POST")
-        input(name="email", type="email", required, placeholder="Email")
-        input(name="username", type="text", required, placeholder="Username")
-        input(name="password", type="password", required, placeholder="Password")
-        input(name="password2", type="password", required, placeholder="Confirm Password")
-        input(name="name", type="text", required, placeholder="Name")
-        input(name="location", type="text", placeholder="Location")
-        input(type="submit" value="Create Account")
-    br
-    div
-        span Already have an account? 
-        a(href="/login") Login in now &rarr;
+    div#join-page
+        span=errorMessage
+        form.form-area(method="POST")
+            input.input-text(name="email", type="email", required, placeholder="Email")
+            input.input-text(name="username", type="text", required, placeholder="Username")
+            input.input-text(name="password", type="password", required, placeholder="Password")
+            input.input-text(name="password2", type="password", required, placeholder="Confirm Password")
+            input.input-text(name="name", type="text", required, placeholder="Name")
+            input.input-text(name="location", type="text", placeholder="Location")
+            input.input-button(type="submit" value="Create Account")
+        div#login-question
+            span Already have an account? 
+            a(href="/login") Login in now &rarr;

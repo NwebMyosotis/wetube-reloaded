@@ -2,7 +2,14 @@ extends ../base.pug
 include ../mixins/video.pug
 
 block content 
-    each video in user.videos
-        +videoMixin(video)
-    else 
-        li Sorry Nothing Found.
+    div#profile-page
+        div#profile-area
+            img(src="/" + user.avatarUrl)
+            span#profile__name=user.name
+            span#profile__email=`(${user.email})`
+        div#video-area
+            each video in user.videos
+                +videoMixin(video)
+
+            else 
+                li Sorry Nothing Found.

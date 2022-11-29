@@ -1,10 +1,13 @@
 mixin videoMixin(video)
-    div
-        h4
-            a(href=`/videos/${video.id}`)=video.title 
-        p=video.description
-        ul
-            each hashtag in video.hashtags
-                li=hashtag
-        small=video.createdAt
-        hr
+    div(class="video")
+        a(href=`/videos/${video.id}`)
+            div#video__img
+        div#description
+            div#img-area
+                a(href=`/users/${video.owner._id}`)
+                    div
+                        img#img-area__avatar(src="/" + video.owner.avatarUrl)
+            div#text-area
+                h4(id="video-title")
+                    a(href=`/videos/${video.id}`)=video.title 
+                small(id="video-name") #{video.owner.name} • 0회

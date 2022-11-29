@@ -1,0 +1,36 @@
+#join-page {
+  display: flex;
+  flex-direction: column;
+  height: 80vh;
+  align-items: center;
+  justify-content: center;
+}
+
+#join-form {
+  padding: 20px;
+  border: 1px solid gray;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  //input.scss
+}
+
+#login-question {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 10px;
+  font-weight: 500;
+  span {
+    margin-bottom: 10px;
+    color: gray;
+  }
+  a {
+    font-weight: 600;
+    font-size: 20px;
+    &:hover {
+      color: $youtube-red;
+    }
+  }
+}

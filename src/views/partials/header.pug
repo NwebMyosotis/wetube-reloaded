@@ -1,0 +1,24 @@
+header 
+    a(href="/")
+        i.fab.fa-youtube(class="logo")
+        span(id="logo-title") YouTube
+    nav
+        ul(id="nav-items")
+            li 
+                a(href="/search") 
+                    i(class="fa-solid fa-magnifying-glass")
+            if loggedIn
+                li 
+                    a(href="/videos/upload") Upload video
+                li 
+                    a(href="/users/edit") Edit Profile
+                li
+                    a(href="/users/logout") LogOut
+                li 
+                    a(href=`/users/${loggedInUser._id}`)
+                        img#my-page__avatar(src="/" + loggedInUser.avatarUrl)
+            else    
+                li 
+                    a(href="/join") Join
+                li
+                    a(href="/login") Login

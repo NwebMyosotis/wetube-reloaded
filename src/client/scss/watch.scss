@@ -1,0 +1,73 @@
+#watch-container {
+  display: flex;
+  flex-direction: column;
+}
+
+#description-container {
+  display: flex;
+  justify-content: space-between;
+}
+
+#video-info {
+  margin-top: 10px;
+  #hashtags {
+    color: #196bd7;
+    font-size: 14px;
+  }
+  #title {
+    font-size: 28px;
+    font-weight: 500;
+  }
+  #owner {
+    display: flex;
+    align-items: center;
+    margin-top: 10px;
+    #owner-avatar {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+    }
+    #owner-name {
+      font-size: 18px;
+      font-weight: 500;
+      margin-left: 10px;
+    }
+  }
+  #view-createdAt {
+    border-radius: 10px;
+    margin-top: 15px;
+    font-size: 15px;
+    font-weight: 500;
+    &:hover {
+      background-color: rgb(225, 225, 225);
+    }
+    #description {
+      margin-top: 5px;
+      font-size: 15px;
+    }
+  }
+}
+
+#loggedIn-contents__video {
+  margin-top: 20px;
+  a {
+    display: block;
+    margin-top: -10px;
+    padding: 10px;
+    border-radius: 20px;
+    text-align: center;
+    font-size: 15px;
+    width: 100px;
+    background-color: rgb(240, 240, 240);
+    &:hover {
+      background-color: rgb(196, 196, 196);
+    }
+  }
+  #delete-video {
+    background-color: $youtube-red;
+    color: white;
+    &:hover {
+      background-color: rgb(137, 0, 0);
+    }
+  }
+}

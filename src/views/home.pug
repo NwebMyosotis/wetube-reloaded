@@ -1,8 +1,15 @@
 extends base
 include mixins/video
 
-block content 
-    each video in videos
-        +videoMixin(video)
-    else 
-        li Sorry Nothing Found.
+block content
+    div#video-area
+        each video in videos
+            +videoMixin(video)
+            +videoMixin(video)
+            +videoMixin(video)
+            +videoMixin(video)
+            +videoMixin(video)
+            +videoMixin(video)
+
+        else 
+            li Sorry Nothing Found.

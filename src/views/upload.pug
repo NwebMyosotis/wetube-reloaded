@@ -3,10 +3,10 @@ extend base.pug
 block content 
     if errorMessage
         span=errorMessage
-    form(method="POST", enctype="multipart/form-data")
+    form.form-area(method="POST", enctype="multipart/form-data")
         label(for="video") Video
         input(type="file", id="video", name="video", required, accept="video/*")
-        input(name="title", placeholder="Title", required, type="text")
-        input(name="description", placeholder="Description", required, type="text")
-        input(name="hashtags", placeholder="Hashtags, separated by comma.", required, type="text")
-        input(type="submit", value="Upload Video")
+        input.input-text(name="title", placeholder="Title", required, type="text")
+        input.input-text(name="description", placeholder="Description", required, type="text")
+        input.input-text(name="hashtags", placeholder="Hashtags, separated by comma.", required, type="text")
+        input.input-button(type="submit", value="Upload Video")

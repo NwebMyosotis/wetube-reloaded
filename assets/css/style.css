@@ -1,7 +1,530 @@
 /*!**********************************************************************************************************************!*\
   !*** css ./node_modules/css-loader/dist/cjs.js!./node_modules/sass-loader/dist/cjs.js!./src/client/scss/styles.scss ***!
   \**********************************************************************************************************************/
+/* http://meyerweb.com/eric/tools/css/reset/ 
+   v2.0 | 20110126
+   License: none (public domain)
+*/
+html,
+body,
+div,
+span,
+applet,
+object,
+iframe,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+blockquote,
+pre,
+a,
+abbr,
+acronym,
+address,
+big,
+cite,
+code,
+del,
+dfn,
+em,
+img,
+ins,
+kbd,
+q,
+s,
+samp,
+small,
+strike,
+strong,
+sub,
+sup,
+tt,
+var,
+b,
+u,
+i,
+center,
+dl,
+dt,
+dd,
+ol,
+ul,
+li,
+fieldset,
+form,
+label,
+legend,
+table,
+caption,
+tbody,
+tfoot,
+thead,
+tr,
+th,
+td,
+article,
+aside,
+canvas,
+details,
+embed,
+figure,
+figcaption,
+footer,
+header,
+hgroup,
+menu,
+nav,
+output,
+ruby,
+section,
+summary,
+time,
+mark,
+audio,
+video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+  vertical-align: baseline;
+}
+
+/* HTML5 display-role reset for older browsers */
+article,
+aside,
+details,
+figcaption,
+figure,
+footer,
+header,
+hgroup,
+menu,
+nav,
+section {
+  display: block;
+}
+
 body {
-  background-color: aliceblue;
-  color: blue;
+  line-height: 1;
+}
+
+ol,
+ul {
+  list-style: none;
+}
+
+blockquote,
+q {
+  quotes: none;
+}
+
+blockquote:before,
+blockquote:after,
+q:before,
+q:after {
+  content: "";
+  content: none;
+}
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+header {
+  display: flex;
+  justify-content: space-between;
+  margin: 20px;
+}
+
+nav {
+  display: flex;
+  align-items: center;
+  margin-right: 10px;
+}
+
+#nav-items {
+  display: flex;
+  align-items: center;
+  text-transform: uppercase;
+}
+#nav-items li {
+  margin-left: 20px;
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.logo {
+  color: #ff0000;
+  font-size: 30px;
+}
+
+#logo-title {
+  margin-left: 3px;
+  font-size: 25px;
+  font-weight: 500;
+  letter-spacing: -2px;
+}
+
+#my-page__avatar {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  border: 1px solid gray;
+}
+
+footer {
+  display: flex;
+  justify-content: center;
+  margin-top: 50px;
+}
+
+#video-area {
+  margin: 50px 0;
+  display: grid;
+  justify-content: center;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  width: 100%;
+}
+
+.video {
+  margin: 10px;
+  height: 30vh;
+}
+.video #video__img {
+  width: 100%;
+  height: 200px;
+  border: 1px solid gray;
+  border-radius: 10px;
+}
+.video #description {
+  display: flex;
+  margin-top: 10px;
+}
+.video #description #img-area #img-area__avatar {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+}
+.video #description #text-area {
+  margin-left: 10px;
+  margin-top: 5px;
+}
+.video #description #text-area #video-title {
+  font-size: 18px;
+  font-weight: 600;
+}
+.video #description #text-area #video-name {
+  display: block;
+  margin-top: 5px;
+  font-size: 15px;
+  color: rgb(75, 75, 75);
+}
+
+.form-area {
+  padding: 20px;
+  border: 1px solid gray;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.input-text {
+  padding: 10px;
+  width: 400px;
+  border: 1px solid gray;
+  border-radius: 10px;
+  margin: 5px;
+}
+
+.input-button {
+  padding: 10px;
+  width: 422px;
+  border: 1px solid gray;
+  border-radius: 10px;
+  margin-top: 20px;
+}
+.input-button:hover {
+  background-color: rgb(222, 222, 222);
+  cursor: pointer;
+}
+
+#watch-container {
+  display: flex;
+  flex-direction: column;
+}
+
+#description-container {
+  display: flex;
+  justify-content: space-between;
+}
+
+#video-info {
+  margin-top: 10px;
+}
+#video-info #hashtags {
+  color: #196bd7;
+  font-size: 14px;
+}
+#video-info #title {
+  font-size: 28px;
+  font-weight: 500;
+}
+#video-info #owner {
+  display: flex;
+  align-items: center;
+  margin-top: 10px;
+}
+#video-info #owner #owner-avatar {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+}
+#video-info #owner #owner-name {
+  font-size: 18px;
+  font-weight: 500;
+  margin-left: 10px;
+}
+#video-info #view-createdAt {
+  border-radius: 10px;
+  margin-top: 15px;
+  font-size: 15px;
+  font-weight: 500;
+}
+#video-info #view-createdAt:hover {
+  background-color: rgb(225, 225, 225);
+}
+#video-info #view-createdAt #description {
+  margin-top: 5px;
+  font-size: 15px;
+}
+
+#loggedIn-contents__video {
+  margin-top: 20px;
+}
+#loggedIn-contents__video a {
+  display: block;
+  margin-top: -10px;
+  padding: 10px;
+  border-radius: 20px;
+  text-align: center;
+  font-size: 15px;
+  width: 100px;
+  background-color: rgb(240, 240, 240);
+}
+#loggedIn-contents__video a:hover {
+  background-color: rgb(196, 196, 196);
+}
+#loggedIn-contents__video #delete-video {
+  background-color: #ff0000;
+  color: white;
+}
+#loggedIn-contents__video #delete-video:hover {
+  background-color: rgb(137, 0, 0);
+}
+
+#search-area {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+#search-area form {
+  display: flex;
+  justify-content: center;
+}
+#search-area form .search-input {
+  width: 500px;
+  padding: 10px;
+  border: 1px solid gray;
+  border-radius: 25px 0 0 25px;
+}
+#search-area form .search-button {
+  margin-left: -1px;
+  border: 1px solid gray;
+  border-radius: 0 25px 25px 0;
+  font-size: 15px;
+  width: 100px;
+  color: rgb(66, 66, 66);
+}
+#search-area form .search-button:hover {
+  background-color: rgb(217, 217, 217);
+  cursor: pointer;
+}
+#search-area #video-area {
+  width: 100%;
+}
+
+#join-page {
+  display: flex;
+  flex-direction: column;
+  height: 80vh;
+  align-items: center;
+  justify-content: center;
+}
+
+#join-form {
+  padding: 20px;
+  border: 1px solid gray;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#login-question {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 10px;
+  font-weight: 500;
+}
+#login-question span {
+  margin-bottom: 10px;
+  color: gray;
+}
+#login-question a {
+  font-weight: 600;
+  font-size: 20px;
+}
+#login-question a:hover {
+  color: #ff0000;
+}
+
+#login-page {
+  height: 80vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+#login-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 30px 20px;
+  border: 1px solid gray;
+  border-radius: 10px;
+}
+#login-form a {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 10px;
+  padding: 4px 10px;
+  font-size: 15px;
+  width: 400px;
+}
+#login-form #login-github {
+  color: white;
+  background-color: #24292f;
+  border: 1px solid black;
+}
+#login-form #login-github i {
+  margin-left: 20px;
+  font-size: 30px;
+}
+#login-form #login-kakao {
+  color: #3c1e1e;
+  background-color: #fae100;
+  border: 1px solid rgb(152, 152, 0);
+}
+#login-form #login-kakao i {
+  margin-left: 20px;
+  font-size: 30px;
+}
+
+#join-anchor {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 10px;
+  font-weight: 500;
+}
+#join-anchor span {
+  margin-bottom: 10px;
+  color: gray;
+}
+#join-anchor a {
+  font-weight: 600;
+  font-size: 20px;
+}
+#join-anchor a:hover {
+  color: #ff0000;
+}
+
+#profile-page {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+#profile-page #profile-area {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+#profile-page #profile-area img {
+  width: 200px;
+  height: 200px;
+  border: 1px solid gray;
+  border-radius: 50%;
+}
+#profile-page #profile-area #profile__name {
+  margin-top: 20px;
+  font-size: 30px;
+  font-weight: 600;
+}
+#profile-page #profile-area #profile__email {
+  margin-top: 5px;
+  font-size: 15px;
+  color: rgb(58, 58, 58);
+}
+
+.area__edit-profile {
+  margin-top: 50px;
+}
+
+#edit-profile__img {
+  border: 1px solid gray;
+  border-radius: 50%;
+}
+
+#avatar {
+  border: 1px solid gray;
+  border-radius: 5px;
+  margin: 5px;
+}
+
+.anchor__change-password {
+  display: block;
+  margin: 0 auto;
+  text-align: center;
+  margin-top: 10px;
+  text-decoration: underline;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+body {
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+  background-color: white;
+  color: #212121;
+}
+
+main {
+  display: flex;
+  justify-content: center;
+  max-width: 1400px;
+  margin: 0 auto;
 }
