@@ -1,16 +1,18 @@
-extends base.pug
+extends base
+
 
 block content
-    div#join-page
+    if errorMessage
         span=errorMessage
-        form.form-area(method="POST")
-            input.input-text(name="email", type="email", required, placeholder="Email")
-            input.input-text(name="username", type="text", required, placeholder="Username")
-            input.input-text(name="password", type="password", required, placeholder="Password")
-            input.input-text(name="password2", type="password", required, placeholder="Confirm Password")
-            input.input-text(name="name", type="text", required, placeholder="Name")
-            input.input-text(name="location", type="text", placeholder="Location")
-            input.input-button(type="submit" value="Create Account")
-        div#login-question
-            span Already have an account? 
-            a(href="/login") Login in now &rarr;
+    form(method="POST")
+        input(placeholder="Name", name="name", type="text", required)
+        input(placeholder="Email", name="email", type="email", required)
+        input(placeholder="Username", name="username", type="text", required)
+        input(placeholder="Password", name="password", type="password", required)
+        input(placeholder="Confirm Password", name="password2", type="password", required)
+        input(placeholder="Location", name="location", type="text", required)
+        input(type="submit", value="Join")
+        include partials/social-login
+    div.auth-switch
+        span Already have an account? 
+        a(href="/login") Log in now &rarr;

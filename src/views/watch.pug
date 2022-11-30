@@ -1,22 +1,14 @@
-extends base.pug
+extends base
 
 block content
-    div#watch-container
-        video(src="/" + video.fileUrl, controls, width="1200")
-        div#description-container
-            div#video-info
-                small#hashtags=video.hashtags
-                h1#title=video.title
-                div#owner
-                    a(href=`/users/${video.owner._id}`)
-                        img#owner-avatar(src="/" + video.owner.avatarUrl)
-                    a#owner-name(href=`/users/${video.owner._id}`) #{video.owner.name}
-                div#view-createdAt
-                    small.views 조회수 0회 ﹒
-                    small#createdAt=video.createdAt
-                    p#description=video.description
-            div#loggedIn-contents__video
-                if String(video.owner._id) === String(loggedInUser._id)
-                    a#edit-video(href=`${video.id}/edit`) Edit
-                    br
-                    a#delete-video(href=`${video.id}/delete`) Delete
+    video(src="/" + video.fileUrl, controls, width=1200)
+    div
+        p=video.description
+        small=video.createdAt
+    div
+        small Uploaded by 
+            a(href=`/users/${video.owner._id}`)=video.owner.name
+    if String(video.owner._id) === String(loggedInUser._id)
+        a(href=`${video.id}/edit`) Edit Video &rarr;
+        br
+        a(href=`${video.id}/delete`) Delete Video &rarr;

@@ -1,41 +1,35 @@
 header {
+  padding: 20px 50px;
   display: flex;
   justify-content: space-between;
-  margin: 20px;
-}
-
-nav {
-  display: flex;
   align-items: center;
-  margin-right: 10px;
-}
-
-#nav-items {
-  display: flex;
-  align-items: center;
-  li {
-    margin-left: 20px;
-    font-size: 15px;
-    font-weight: 600;
+  .header__logo {
+    color: $red;
+    font-size: 38px;
   }
-  text-transform: uppercase;
-}
-
-.logo {
-  color: $youtube-red;
-  font-size: 30px;
-}
-
-#logo-title {
-  margin-left: 3px;
-  font-size: 25px;
-  font-weight: 500;
-  letter-spacing: -2px;
-}
-
-#my-page__avatar {
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
-  border: 1px solid gray;
+  ul {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    li {
+      margin-left: 30px;
+      font-size: 14px;
+      font-weight: 600;
+      text-transform: uppercase;
+    }
+    i {
+      font-size: 16px;
+    }
+  }
+  .header__btn {
+    background-color: white;
+    color: $bg;
+    padding: 5px 10px;
+    border-radius: 5px;
+  }
+  .header__avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+  }
 }

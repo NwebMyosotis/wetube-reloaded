@@ -1,15 +1,13 @@
-extends ../base.pug
-include ../mixins/video.pug
+extends ../base
+include ../mixins/video
 
-block content 
-    div#profile-page
-        div#profile-area
-            img(src="/" + user.avatarUrl)
-            span#profile__name=user.name
-            span#profile__email=`(${user.email})`
-        div#video-area
-            each video in user.videos
-                +videoMixin(video)
 
-            else 
-                li Sorry Nothing Found.
+block content
+    div.profile__data
+        img(src="/" + user.avatarUrl).avatar
+        h3=user.name
+    div.video-grid
+        each video in user.videos
+            +video(video)
+        else
+            span.empty__message No videos found

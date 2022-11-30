@@ -1,13 +1,8 @@
-mixin videoMixin(video)
-    div(class="video")
-        a(href=`/videos/${video.id}`)
-            div#video__img
-        div#description
-            div#img-area
-                a(href=`/users/${video.owner._id}`)
-                    div
-                        img#img-area__avatar(src="/" + video.owner.avatarUrl)
-            div#text-area
-                h4(id="video-title")
-                    a(href=`/videos/${video.id}`)=video.title 
-                small(id="video-name") #{video.owner.name} • 0회
+mixin video(video)
+    a(href=`/videos/${video.id}`).video-mixin
+        div.video-mixin__thumb
+        div.video-mixin__data
+            span.video-mixin__title=video.title
+            div.video-mixin__meta
+                span #{video.owner.name} • 
+                span #{video.meta.views} 회

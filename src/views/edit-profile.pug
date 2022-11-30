@@ -1,16 +1,14 @@
-extends base.pug
+extends base
 
 block content
-    span=errorMessage
-    div.area__edit-profile
-        form.form-area(method="POST", enctype="multipart/form-data")
-            img#edit-profile__img(src="/" + loggedInUser.avatarUrl, width="100", height="100")
-            label(for="avatar") Avatar
-            input(type="file", name="avatar", id="avatar", accept="image/*") 
-            input.input-text(name="email", type="email", required, placeholder="Email", value=loggedInUser.email)
-            input.input-text(name="username", type="text", required, placeholder="Username", value=loggedInUser.username)
-            input.input-text(name="name", type="text", required, placeholder="Name", value=loggedInUser.name)
-            input.input-text(name="location", type="text", placeholder="Location", value=loggedInUser.location)
-            input.input-button(type="submit", value="Update Profile")
-        if !loggedInUser.socialOnly   
-            a.anchor__change-password(href="change-password") Change Password &rarr;
+    form(method="POST", enctype="multipart/form-data").edit-profile__form
+        label(for="avatar") Avatar
+        input(type="file", id="avatar", name="avatar", accept="image/*")
+        input(placeholder="Name", name="name", type="text", required, value=loggedInUser.name)
+        input(placeholder="Email", name="email", type="email", required, value=loggedInUser.email)
+        input(placeholder="Username", name="username", type="text", required, value=loggedInUser.username)
+        input(placeholder="Location", name="location", type="text", required, value=loggedInUser.location)
+        input(type="submit", value="Update Profile")
+        if !loggedInUser.socialOnly
+            div.edit-profile__password
+                a(href="change-password") Change Password &rarr;
