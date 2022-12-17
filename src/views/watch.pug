@@ -1,16 +1,16 @@
 extends base
 
 block content
-    div#videoContainer
+    div#videoContainer(data-id=video._id)
         video(src="/" + video.fileUrl)
         div#videoControls.videoControls
             div.videoControls__play
                 span#play.videoControls__playBtn
                     i.fas.fa-play
                 div.videoControls__time
-                    span#currenTime 00:00
+                    span#currenTime 00:00:00
                     span  / 
-                    span#totalTime 00:00
+                    span#totalTime 00:00:00
             input(type="range",step="1", value="0", min="0")#timeline.videoControls__timeline
             div.videoControls__volume
                 input(type="range",step="0.1", value=0.5, min="0", max="1")#volume
