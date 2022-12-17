@@ -9,7 +9,8 @@ form {
   }
 }
 
-input {
+input:not(input[type="range"]) {
+  //scss에서는 이렇게 일부 값이 들어간 요소를 제외할 수 있음.
   all: unset;
   padding: 15px 20px;
   border-radius: 5px;

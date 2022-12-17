@@ -234,7 +234,7 @@ form:not(.search__form) {
   border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-input {
+input:not(input[type=range]) {
   all: unset;
   padding: 15px 20px;
   border-radius: 5px;
@@ -245,7 +245,7 @@ input {
   color: white;
   width: 90%;
 }
-input::placeholder {
+input:not(input[type=range])::placeholder {
   color: rgba(255, 255, 255, 0.7);
 }
 

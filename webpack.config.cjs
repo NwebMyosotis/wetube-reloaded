@@ -4,14 +4,17 @@ const path = require("path");
 module.exports = {
   mode: "development",
   watch: true,
-  entry: "./src/client/js/main.js",
+  entry: {
+    main: "./src/client/js/main.js",
+    videoPlayer: "./src/client/js/videoPlayer.js",
+  },
   plugins: [
     new MiniCssExtractPlugin({
       filename: "css/style.css",
     }),
   ],
   output: {
-    filename: "js/main.js",
+    filename: "js/[name].js",
     path: path.resolve(__dirname, "assets"),
     clean: true,
   },
