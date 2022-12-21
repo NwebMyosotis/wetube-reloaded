@@ -28,7 +28,8 @@
     "mongoose": "^6.6.2",
     "morgan": "^1.10.0",
     "multer": "^1.4.5-lts.1",
-    "pug": "^3.0.2"
+    "pug": "^3.0.2",
+    "regenerator-runtime": "^0.13.11"
   },
   "devDependencies": {
     "@babel/core": "^7.19.0",
