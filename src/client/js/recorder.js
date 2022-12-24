@@ -1,4 +1,5 @@
 import { createFFmpeg, fetchFile } from "@ffmpeg/ffmpeg";
+import { async } from "regenerator-runtime";
 
 const startBtn = document.getElementById("startBtn");
 const video = document.getElementById("preview");
@@ -23,7 +24,13 @@ const handleStart = () => {
   recorder.start();
 };
 
-const handleDownload = () => {
+const handleDownload = async () => {
+  const ffmpeg = createFFmpeg({ log: true });
+  await ffmpeg.load();
+
+  ffmpeg.FS("writeFile", "recording.webm", await fetchFile(videoFile));
+
+  await ffmpeg.run("-i", "recorder.webm", "-r", "60", "output.mp4");
   //자체적인 기능보다는 anchor 태그와 그에 속한 download 속성을 응용, click 트리거가 작동하도록 해 구현함.
   const a = document.createElement("a");
   a.href = videoFile;
