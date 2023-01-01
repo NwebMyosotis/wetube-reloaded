@@ -1,5 +1,4 @@
 import { createFFmpeg, fetchFile } from "@ffmpeg/ffmpeg";
-import { async } from "regenerator-runtime";
 
 const startBtn = document.getElementById("startBtn");
 const video = document.getElementById("preview");
@@ -30,13 +29,38 @@ const handleDownload = async () => {
 
   ffmpeg.FS("writeFile", "recording.webm", await fetchFile(videoFile));
 
-  await ffmpeg.run("-i", "recorder.webm", "-r", "60", "output.mp4");
+  await ffmpeg.run("-i", "recording.webm", "-r", "60", "output.mp4");
+  await ffmpeg.run(
+    "-i",
+    "recording.webm",
+    "-ss",
+    "00:00:01",
+    "-frames:v",
+    "1",
+    "thumbnail.jpg"
+  );
+
+  const mp4File = ffmpeg.FS("readFile", "output.mp4");
+  const thumbFile = ffmpeg.FS("readFile", "thumbnail.jpg");
+
+  const mp4Blob = new Blob([mp4File.buffer], { type: "video/mp4" });
+  const thumbBlob = new Blob([thumbFile.buffer], { type: "image/jpg" });
+
+  const mp4Url = URL.createObjectURL(mp4Blob);
+  const thumbUrl = URL.createObjectURL(thumbBlob);
+
   //자체적인 기능보다는 anchor 태그와 그에 속한 download 속성을 응용, click 트리거가 작동하도록 해 구현함.
   const a = document.createElement("a");
-  a.href = videoFile;
-  a.download = "myVideo.webm";
+  a.href = mp4Url;
+  a.download = "myRecording.mp4";
   document.body.appendChild(a);
   a.click();
+
+  const thumbA = document.createElement("a");
+  thumbA.href = thumbUrl;
+  thumbA.download = "myThumbnail.jpg";
+  document.body.appendChild(thumbA);
+  thumbA.click();
 };
 
 const handleStop = () => {

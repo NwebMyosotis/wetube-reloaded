@@ -22,7 +22,7 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.js/,
+        test: /\.js$/,
         use: {
           loader: "babel-loader/",
           options: {
@@ -31,7 +31,7 @@ module.exports = {
         },
       },
       {
-        test: /\.scss/,
+        test: /\.scss$/,
         use: [MiniCssExtractPlugin.loader, "css-loader", "sass-loader"],
       },
     ],

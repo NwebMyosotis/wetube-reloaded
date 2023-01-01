@@ -2,7 +2,6 @@
   "name": "wetube",
   "version": "1.0.0",
   "description": "The best way to watch videos",
-  "main": "index.js",
   "type": "module",
   "repository": {
     "type": "git",
@@ -21,7 +20,7 @@
   "dependencies": {
     "@ffmpeg/core": "^0.8.5",
     "@ffmpeg/ffmpeg": "^0.9.7",
-    "bcrypt": "^5.1.0",
+    "bcrypt": "^5.0.1",
     "connect-mongo": "^4.6.0",
     "cross-fetch": "^3.1.5",
     "dotenv": "^16.0.3",
@@ -31,12 +30,12 @@
     "morgan": "^1.10.0",
     "multer": "^1.4.5-lts.1",
     "pug": "^3.0.2",
-    "regenerator-runtime": "^0.13.11"
+    "regenerator-runtime": "^0.13.7"
   },
   "devDependencies": {
-    "@babel/core": "^7.19.0",
-    "@babel/node": "^7.18.10",
-    "@babel/preset-env": "^7.19.0",
+    "@babel/core": "^7.20.7",
+    "@babel/node": "^7.20.7",
+    "@babel/preset-env": "^7.20.2",
     "babel-loader": "^9.1.0",
     "css-loader": "^6.7.2",
     "mini-css-extract-plugin": "^2.7.0",
