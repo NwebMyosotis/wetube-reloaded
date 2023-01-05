@@ -84,12 +84,13 @@ export const postUpload = async (req, res) => {
   const {
     user: { _id },
   } = req.session;
-  const { path: fileUrl } = req.file; //es6문법, videoUrl을 치면 req.file.path가 실행됨.
+  const { video, thumb } = req.files; //es6문법, videoUrl을 치면 req.file.path가 실행됨.
   const { title, description, hashtags } = req.body;
   try {
     const newVideo = await Video.create({
       owner: _id,
-      fileUrl,
+      fileUrl: video[0].path,
+      thumbUrl: thumb[0].path,
       title,
       description,
       hashtags: Video.formatHashtag(hashtags),
