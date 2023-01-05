@@ -1,18 +1,14 @@
 import { createFFmpeg, fetchFile } from "@ffmpeg/ffmpeg";
-
 const actionBtn = document.getElementById("actionBtn");
 const video = document.getElementById("preview");
-
 let stream;
 let recorder;
 let videoFile;
-
 const files = {
   input: "recording.webm",
   output: "output.mp4",
   thumb: "thumbnail.jpg",
 };
-
 const downloadFile = (fileUrl, fileName) => {
   const a = document.createElement("a");
   a.href = fileUrl;
@@ -20,33 +16,13 @@ const downloadFile = (fileUrl, fileName) => {
   document.body.appendChild(a);
   a.click();
 };
-
-const handleStart = () => {
-  actionBtn.innerText = "Stop Recording";
-  actionBtn.removeEventListener("click", handleStart);
-  actionBtn.addEventListener("click", handleStop); // innerText 변경을 addEventListener와 removeEventListener를 활용해 구현함.
-  recorder = new MediaRecorder(stream, { mimeType: "video/webm" });
-  recorder.ondataavailable = (event) => {
-    //dataavailable은 녹화가 멈추면 발생하는 이벤트임 , on 뒤에 이벤트명이 오는 건 addEventListener와 유사함. 즉, 이벤트 리스너를 만드는 것.
-    videoFile = URL.createObjectURL(event.data); // 브라우저가 메모리에 저장한 url을 우리에게 전달함. (파일에 접근할 수 있게 해줌)(이 url은 백엔드에 존재x)
-    video.srcObject = null;
-    video.src = videoFile;
-    video.loop = true;
-    video.play();
-  };
-  recorder.start();
-};
-
 const handleDownload = async () => {
   actionBtn.removeEventListener("click", handleDownload);
   actionBtn.innerText = "Transcoding...";
   actionBtn.disabled = true;
-
   const ffmpeg = createFFmpeg({ log: true });
   await ffmpeg.load();
-
   ffmpeg.FS("writeFile", files.input, await fetchFile(videoFile));
-
   await ffmpeg.run("-i", files.input, "-r", "60", files.output);
   await ffmpeg.run(
     "-i",
@@ -57,54 +33,57 @@ const handleDownload = async () => {
     "1",
     files.thumb
   );
-
   const mp4File = ffmpeg.FS("readFile", files.output);
   const thumbFile = ffmpeg.FS("readFile", files.thumb);
-
   const mp4Blob = new Blob([mp4File.buffer], { type: "video/mp4" });
   const thumbBlob = new Blob([thumbFile.buffer], { type: "image/jpg" });
-
   const mp4Url = URL.createObjectURL(mp4Blob);
   const thumbUrl = URL.createObjectURL(thumbBlob);
-
-  //자체적인 기능보다는 anchor 태그와 그에 속한 download 속성을 응용, click 트리거가 작동하도록 해 구현함.
-
-  downloadFile(mp4Url, "myRecording.mp4");
-  downloadFile(thumbUrl, "myThumbnail.jpg");
-
+  downloadFile(mp4Url, "MyRecording.mp4");
+  downloadFile(thumbUrl, "MyThumbnail.jpg");
   ffmpeg.FS("unlink", files.input);
   ffmpeg.FS("unlink", files.output);
   ffmpeg.FS("unlink", files.thumb);
-
   URL.revokeObjectURL(mp4Url);
   URL.revokeObjectURL(thumbUrl);
   URL.revokeObjectURL(videoFile);
-
-  actionBtn.addEventListener("click", handleStart);
+  actionBtn.disabled = false;
   init();
   actionBtn.innerText = "Record Again";
-  actionBtn.disabled = false;
+  actionBtn.addEventListener("click", handleStart);
 };
 
-const handleStop = () => {
-  actionBtn.innerText = "Download Recording";
-  actionBtn.removeEventListener("click", handleStop);
-  actionBtn.addEventListener("click", handleDownload);
-  recorder.stop();
+const handleStart = () => {
+  actionBtn.innerText = "Recording";
+  actionBtn.disabled = true;
+  actionBtn.removeEventListener("click", handleStart);
+  recorder = new MediaRecorder(stream, { mimeType: "video/webm" });
+  recorder.ondataavailable = (event) => {
+    videoFile = URL.createObjectURL(event.data);
+    video.srcObject = null;
+    video.src = videoFile;
+    video.loop = true;
+    video.play();
+    actionBtn.innerText = "Download";
+    actionBtn.disabled = false;
+    actionBtn.addEventListener("click", handleDownload);
+  };
+  recorder.start();
+  setTimeout(() => {
+    recorder.stop();
+  }, 5000);
 };
 
 const init = async () => {
   stream = await navigator.mediaDevices.getUserMedia({
-    //MediaDevices는 마이크, 카메라와 같은 미디어 장비들에 접근하게 함.
     audio: false,
-    video: true, //getUserMedia로 audio는 받지 않고 video만 받아오게 만들었음.
+    video: {
+      width: 1024,
+      height: 576,
+    },
   });
   video.srcObject = stream;
-  //stream: 우리가 어딘가에 넣어둘 0과 1로 이루어진 데이터를 의미, 여기서는 video 엘리먼트에 stream을 넣음. (srcObject 사용)
-  //MediaElement.srcObject: 미디어 소스 역할을 하는 데이터를 설정 및 반환함.
   video.play();
 };
-
 init();
-
 actionBtn.addEventListener("click", handleStart);
