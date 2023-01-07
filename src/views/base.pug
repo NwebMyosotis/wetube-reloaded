@@ -1,3 +1,5 @@
+include mixins/message
+
 doctype html
 html(lang="kr")
     head
@@ -5,6 +7,12 @@ html(lang="kr")
         link(rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css")
         link(rel="stylesheet" href="/static/css/style.css")
     body
+        if messages.error
+            +message("error", messages.error)
+        if messages.info
+            +message("info", messages.info)
+        if messages.error
+            +message("success", messages.success)
         include partials/header
         main
               block content 

@@ -9,6 +9,7 @@ import rootRouter from "./routers/rootRouter.js";
 import userRouter from "./routers/userRouter.js";
 import videoRouter from "./routers/videoRouter.js";
 import apiRouter from "./routers/apiRouter.js";
+import flash from "express-flash";
 
 const app = express();
 const logger = morgan("dev");
@@ -37,6 +38,7 @@ app.use(
   })
 );
 
+app.use(flash());
 app.use(localsMiddleware);
 app.use("/uploads", express.static("uploads"));
 app.use("/static", express.static("assets"));
