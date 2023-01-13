@@ -111,7 +111,7 @@ export const finishGithubLogin = async (req, res) => {
         },
       })
     ).json();
-    console.log(userData);
+    // console.log(userData);
     const emailData = await (
       await fetch(`${apiUrl}/user/emails`, {
         //user:email을 불러옴 (email array)
@@ -176,7 +176,7 @@ export const finishKakaoLogin = async (req, res) => {
       method: "POST",
     })
   ).json();
-  console.log(tokenRequest);
+  // console.log(tokenRequest);
 
   if ("access_token" in tokenRequest) {
     const { access_token } = tokenRequest;
@@ -188,7 +188,7 @@ export const finishKakaoLogin = async (req, res) => {
         },
       })
     ).json();
-    console.log("userData", userData);
+    // console.log("userData", userData);
 
     const username = userData.kakao_account.profile.nickname;
     const userEmail = userData.kakao_account.email;

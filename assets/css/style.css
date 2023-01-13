@@ -335,6 +335,43 @@ input[type=submit]:disabled,
   font-size: 20px;
 }
 
+.video__data {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+}
+.video__data .video__title {
+  font-size: 26px;
+  margin-bottom: 5px;
+}
+.video__data .video__createdAt {
+  font-size: 12px;
+}
+.video__data .video__owner {
+  margin-bottom: 5px;
+  font-size: 14px;
+}
+.video__data .video__owner a {
+  color: cornflowerblue;
+  text-decoration: underline;
+}
+
+.video__comments {
+  display: flex;
+  flex-direction: column;
+  max-width: 320px;
+  width: 100%;
+  margin: 0 auto;
+  margin-top: 20px;
+}
+.video__comments .video__comment {
+  padding: 10px;
+  border-radius: 9999px;
+  background-color: white;
+  color: black;
+  margin-bottom: 10px;
+}
+
 .search__form {
   margin-bottom: 60px;
   display: flex;
