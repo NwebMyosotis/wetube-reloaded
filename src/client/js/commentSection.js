@@ -4,6 +4,8 @@ const videoContainer = document.getElementById("videoContainer");
 const form = document.getElementById("commentForm");
 let deleteBtns = document.querySelectorAll(".button__delete");
 //elements들은 가짜 코멘트 작성히 계속 업데이트가 되어야하기 때문에 데이터를 추가해주기 위해 let
+let commentCount = document.getElementById("count-comment");
+let commentLength = document.querySelectorAll(".video__comment").length;
 
 const addComment = (text, id) => {
   const videoComments = document.querySelector(".video__comments ul");
@@ -46,6 +48,8 @@ const handleSubmit = async (event) => {
     deleteBtn.removeEventListener("click", handleDelete);
     deleteBtn.addEventListener("click", handleDelete);
     //가짜 코멘트에는 이벤트가 제대로 들어와있지 않은 상태이기에 제거 및 재생성을 통해 이벤트를 다시 부여해줘야 함.
+    commentLength = document.querySelectorAll(".video__comment").length;
+    commentCount.innerText = `댓글 ${commentLength}개`;
   }
 };
 if (form) {
@@ -53,13 +57,14 @@ if (form) {
 }
 
 const handleDelete = async (event) => {
-  const videoId = videoContainer.dataset.id;
   const parentList = event.srcElement.parentElement;
   const commentId = parentList.dataset.id;
   await fetch(`/api/comments/${commentId}/delete`, {
     method: "DELETE",
   });
   parentList.remove();
+  commentLength = document.querySelectorAll(".video__comment").length;
+  commentCount.innerText = `댓글 ${commentLength}개`;
 };
 
 if (deleteBtns) {

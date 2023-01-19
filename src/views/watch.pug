@@ -28,7 +28,10 @@ block content
         if String(video.owner._id) === String(loggedInUser._id)
             a(href=`${video.id}/edit`) Edit Video &rarr;
             br
-            //- a(href=`${video.id}/delete`) Delete Video &rarr;
+            a(href=`${video.id}/delete`) Delete Video &rarr;
+    
+    div#counting-area 
+        span#count-comment 댓글 #{video.comments.length}개
 
     if loggedIn
         div.video__add-comments

@@ -355,6 +355,18 @@ input[type=submit]:disabled,
   color: cornflowerblue;
   text-decoration: underline;
 }
+.video__data a {
+  display: contents;
+}
+
+#counting-area {
+  display: flex;
+  justify-content: end;
+  margin: 30px;
+}
+#counting-area span {
+  font-size: 20px;
+}
 
 .video__comments {
   display: flex;
@@ -445,6 +457,7 @@ form label {
 .upload__container .upload__video video {
   max-width: 100%;
   margin-bottom: 10px;
+  transform: scaleX(-1);
 }
 
 a {

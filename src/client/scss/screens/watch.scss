@@ -17,7 +17,20 @@
       text-decoration: underline;
     }
   }
+  a {
+    display: contents;
+  }
 }
+
+#counting-area {
+  display: flex;
+  justify-content: end;
+  margin: 30px;
+  span {
+    font-size: 20px;
+  }
+}
+
 .video__comments {
   display: flex;
   flex-direction: column;
