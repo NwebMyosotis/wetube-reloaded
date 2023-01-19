@@ -166,18 +166,40 @@ export const createComment = async (req, res) => {
   if (!video) {
     return res.sendStatus(404);
   }
+  const userModel = await User.findById(user._id);
+  if (!userModel) {
+    return res.sendStatus(404);
+  }
   const comment = await Comment.create({
     text,
     owner: user._id,
     video: id,
   });
   video.comments.push(comment._id);
+  userModel.comments.push(comment._id);
   video.save();
-  return res.sendStatus(201).json({ newCommentId: comment._id });
+  userModel.save();
+  return res.status(201).json({ newCommentId: comment._id });
+  //json은 프론트엔드에 댓글Id를 보내기 위한 작업임
 };
 
 export const deleteComment = async (req, res) => {
-  const { id } = req.params;
-  const comment = await Comment.findById(id);
-  return res.redirect(`/videos/${comment.video}`);
+  const {
+    params: { commentId },
+    session: {
+      user: { _id: userId },
+    },
+  } = req;
+  const comment = await Comment.findById(commentId).populate("owner");
+  const videoId = comment.video;
+  await Video.updateOne(
+    { _id: videoId },
+    { $pullAll: { comments: [commentId] } }
+  );
+  await User.updateOne(
+    { _id: userId },
+    { $pullAll: { comments: [commentId] } }
+  );
+  await Comment.findByIdAndDelete(commentId);
+  return res.sendStatus(200);
 };

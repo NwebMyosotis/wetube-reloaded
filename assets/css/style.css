@@ -365,13 +365,14 @@ input[type=submit]:disabled,
   margin-top: 20px;
 }
 .video__comments .video__comment {
-  display: flex;
-  justify-content: space-between;
   padding: 10px;
   border-radius: 9999px;
   background-color: white;
   color: black;
   margin-bottom: 10px;
+}
+.video__comments .video__comment .button__delete {
+  cursor: pointer;
 }
 
 .search__form {

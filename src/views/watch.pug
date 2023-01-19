@@ -28,7 +28,7 @@ block content
         if String(video.owner._id) === String(loggedInUser._id)
             a(href=`${video.id}/edit`) Edit Video &rarr;
             br
-            a(href=`${video.id}/delete`) Delete Video &rarr;
+            //- a(href=`${video.id}/delete`) Delete Video &rarr;
 
     if loggedIn
         div.video__add-comments
@@ -42,8 +42,8 @@ block content
                 li.video__comment(data-id=comment.id) 
                     i.fas.fa-comment
                     span  #{comment.text}
-                    span.button__delete(href=`/videos/${video._id}/${comment._id}/commentDelete`) ⓧ
-
+                    if String(video.owner._id) === String(loggedInUser._id)
+                        span.button__delete  ⓧ
 block scripts
     script(src="/static/js/videoPlayer.js")
     if loggedIn
