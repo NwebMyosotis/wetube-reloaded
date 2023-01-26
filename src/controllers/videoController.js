@@ -183,6 +183,24 @@ export const createComment = async (req, res) => {
   //json은 프론트엔드에 댓글Id를 보내기 위한 작업임
 };
 
+export const editComment = async (req, res) => {
+  const {
+    body: { text },
+    params: { commentId: id },
+    session: {
+      user: { _id: userId },
+    },
+  } = req;
+  const comment = await Comment.findById(id).populate("owner");
+  if (userId !== String(comment.owner._id)) {
+    return res.sendStatus(403);
+  }
+  await Comment.findByIdAndUpdate(id, {
+    text,
+  });
+  return res.sendStatus(200);
+};
+
 export const deleteComment = async (req, res) => {
   const {
     params: { commentId },
@@ -192,6 +210,9 @@ export const deleteComment = async (req, res) => {
   } = req;
   const comment = await Comment.findById(commentId).populate("owner");
   const videoId = comment.video;
+  if (userId !== String(comment.owner._id)) {
+    return res.sendStatus(403);
+  }
   await Video.updateOne(
     { _id: videoId },
     { $pullAll: { comments: [commentId] } }

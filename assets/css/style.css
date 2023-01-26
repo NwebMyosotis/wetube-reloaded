@@ -375,15 +375,41 @@ input[type=submit]:disabled,
   width: 100%;
   margin: 0 auto;
   margin-top: 20px;
+  justify-content: center;
 }
 .video__comments .video__comment {
   padding: 10px;
-  border-radius: 9999px;
+  min-height: 20px;
+  border-radius: 10px;
   background-color: white;
   color: black;
   margin-bottom: 10px;
+  display: flex;
+  justify-content: space-between;
 }
-.video__comments .video__comment .button__delete {
+.video__comments .video__comment i {
+  width: 10px;
+}
+.video__comments .video__comment .comment__text {
+  display: block;
+  width: 230px;
+  word-wrap: break-word;
+}
+.video__comments .video__comment .edit-line {
+  border-bottom: 1px solid black;
+}
+.video__comments .video__comment .comment__controls {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  width: 38px;
+}
+.video__comments .video__comment .comment__controls .button__edit {
+  font-size: 20px;
+  cursor: pointer;
+}
+.video__comments .video__comment .comment__controls .button__delete {
+  margin-left: 5px;
   cursor: pointer;
 }
 

@@ -38,14 +38,40 @@
   width: 100%;
   margin: 0 auto;
   margin-top: 20px;
+  justify-content: center;
   .video__comment {
     padding: 10px;
-    border-radius: 9999px;
+    min-height: 20px;
+    border-radius: 10px;
     background-color: white;
     color: black;
     margin-bottom: 10px;
-    .button__delete {
-      cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    i {
+      width: 10px;
+    }
+    .comment__text {
+      display: block;
+      width: 230px;
+      word-wrap: break-word;
+    }
+    .edit-line {
+      border-bottom: 1px solid black;
+    }
+    .comment__controls {
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      width: 38px;
+      .button__edit {
+        font-size: 20px;
+        cursor: pointer;
+      }
+      .button__delete {
+        margin-left: 5px;
+        cursor: pointer;
+      }
     }
   }
 }

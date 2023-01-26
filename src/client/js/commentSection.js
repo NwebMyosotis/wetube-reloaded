@@ -6,6 +6,7 @@ let deleteBtns = document.querySelectorAll(".button__delete");
 //elements들은 가짜 코멘트 작성히 계속 업데이트가 되어야하기 때문에 데이터를 추가해주기 위해 let
 let commentCount = document.getElementById("count-comment");
 let commentLength = document.querySelectorAll(".video__comment").length;
+const editBtns = document.querySelectorAll(".button__edit");
 
 const addComment = (text, id) => {
   const videoComments = document.querySelector(".video__comments ul");
@@ -14,14 +15,24 @@ const addComment = (text, id) => {
   newComment.className = "video__comment";
   const icon = document.createElement("i");
   icon.className = "fas fa-comment";
+  const commentTextArea = document.createElement("div");
+  commentTextArea.classList = "comment__text";
   const span = document.createElement("span");
   span.innerText = ` ${text}`;
-  const span2 = document.createElement("span");
-  span2.className = "button__delete";
-  span2.innerText = " ⓧ";
+  const newControls = document.createElement("div");
+  newControls.className = "comment__controls";
+  const createEditBtn = document.createElement("span");
+  createEditBtn.className = "button__edit";
+  createEditBtn.innerText = " ✎";
+  const createDelBtn = document.createElement("span");
+  createDelBtn.className = "button__delete";
+  createDelBtn.innerText = " ⓧ";
+  newControls.appendChild(createEditBtn);
+  newControls.appendChild(createDelBtn);
+  commentTextArea.appendChild(span);
   newComment.appendChild(icon);
-  newComment.appendChild(span);
-  newComment.appendChild(span2);
+  newComment.appendChild(commentTextArea);
+  newComment.appendChild(newControls);
   videoComments.prepend(newComment);
 };
 
@@ -57,14 +68,20 @@ if (form) {
 }
 
 const handleDelete = async (event) => {
-  const parentList = event.srcElement.parentElement;
+  const parentList = event.path[2];
   const commentId = parentList.dataset.id;
-  await fetch(`/api/comments/${commentId}/delete`, {
+  const response = await fetch(`/api/comments/${commentId}/delete`, {
     method: "DELETE",
   });
-  parentList.remove();
-  commentLength = document.querySelectorAll(".video__comment").length;
-  commentCount.innerText = `댓글 ${commentLength}개`;
+  if (response.status === 403) {
+    alert("Incorrect User");
+    return;
+  }
+  if (response.status === 200) {
+    parentList.remove();
+    commentLength = document.querySelectorAll(".video__comment").length;
+    commentCount.innerText = `댓글 ${commentLength}개`;
+  }
 };
 
 if (deleteBtns) {
@@ -80,3 +97,38 @@ if (deleteBtns) {
 //이렇게 가져온 elements에 forEach 없이 이벤트를 실행하면 전체에 이벤트가 부여됨
 //하나하나에 별도의 이벤트를 주려면 forEach사용.
 //foreach는 배열의 값들에 하나하나에 함수를 부여해주는 기능을 함.
+
+const handleEdit = async (event) => {
+  const commentText = event.path[2].children[1];
+  const text = commentText.innerText;
+  const commentId = event.path[2].dataset.id;
+  const response = await fetch(`/api/videos/${commentId}/edit`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ text }),
+  });
+  if (response.status === 403) {
+    alert("Incorrect User");
+    return;
+  }
+  if (response.status === 200) {
+    commentText.classList.remove("edit-line");
+    commentText.contentEditable = false;
+    event.target.innerText = " ✎";
+    event.target.removeEventListener("click", handleEdit);
+    event.target.addEventListener("click", handleEditBtn);
+  }
+};
+
+const handleEditBtn = (event) => {
+  const commentText = event.path[2].children[1];
+  commentText.classList.add("edit-line");
+  commentText.contentEditable = true; //contentEditable = true : 대상을 입력가능한 형태로 만들어 줌 (수정가능)
+  event.target.innerText = " ☑︎";
+  event.target.removeEventListener("click", handleEditBtn);
+  event.target.addEventListener("click", handleEdit); //버튼 기능을 업데이트하려면 이벤트 리스너를 지우고 다시 생성
+};
+
+editBtns.forEach((editBtn) => editBtn.addEventListener("click", handleEditBtn));
