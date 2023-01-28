@@ -1,0 +1,145 @@
+
+배포: heroku 사용 => node.js 환경에서도 서버가 실행될 수 있게 바꿔야함.
+DB 설정도 바꿔야함 (현재는 진짜 DB가 만들어져 있지 않음.) - mongoDB가 localhost에서 실행되는 것은 좋지 않음
+서버를 아마존에서 구동되게 해야함(?)
+nodemon을 사용해서 babel-node를 실행하고 있는데 babel-node는 실제 서비스 되는 곳이 아니라 개발할 때만 사용되는 목적으로 씀\
+바벨 노드는 자바스크립트 코드를 실행할 수 있게 도와줌 그러나 퍼포먼스 무넺가 있음 (바벨노드는 느림)
+
+init.js를 일반적은 js코드로 바꿔줘야함. -> Babel CLI 를 사용
+  npm install --save-dev @babel/core @babel/cli
+
+앞서 사용한 babel-node는 실시간으로 백엔드의 코드를 변환해주므로 개발중에 사용하고, 완성이 되었다면 Babel-cli를 사용해 아예 변환된 파일을 바탕으로 백엔드가 동작하도록 해야함 (그래야 더 빠름)
+
+이후 package.json에 babel/cli 를 담당할 scripts를 추가해줘야함.
+("build:server": "babel src/init.js -d build")
+-d: directory, 빌드한 코드를 어디에 저장할 지를 의미 뒤에 빌드할 위치 적어주기
+=> 이때 바벨이라는 폴더가 생성되고 변환된 init.js 가 생성되는데 babel/cli는 init.js 만 변형해서는
+ 모든 데이터를 받아올 수 없음. 서버가 있는 폴더 자체를 변환해야 함. 즉 경로가 src가 되야함.
+ ("build:server": "babel src -d build")
+
+빌드 폴더는 깃허브에 올리고 싶지 않으므로 gitignore에 써놓아도 됨.
+
+-> build 폴더를 살펴보면 src 폴더 자체를 변형했기에 백엔드와 관련없는 client 폴더도 변형된 것을 볼 수 있음,.
+ 이 부분을 제외해줘야함. (클라이언트는 웹팩이 빌드해야 함) - 나중에
+
+package.json의 scripts에 start 라는 새 명령어 추가.
+이 명령어를 사용해서 build의 init.js를 실행해 줄 것임.
+"start: "node build/init.js"
+
+이후 npm start 해주면 실행이 되지만 당장은 에러가 발생하 것 (regeneratorRuntime에러)
+: 프론트엔드에서 본 에러임. async - await 사용하려고 할 때 생겼던 그 에러. 
+=> 왠지 난 문제가 안생김
+
+다시 확인해보면 build 폴더에는 views 폴더가 없다는 걸 확인 가능. 이걸 복사해줘야함. - 나중에
+
+(만약 rpm start시 ES Module 에러가 발생한다면 package.json의 type: module을 삭제해줄 것.)
+
+---
+
+regeneratorRuntime 에러 발생시 원래는 regenerator-runtime을 init.js에 import해 해결 할 수 있음.
+(난 문제가 안생기지만 일단 해둠)
+
+- npm run start가 아니어도 됨. start는 기본 명령어이기 때문에 run이 없어도 인식할 수 있음.
+
+원래대로라면 Npm start 후에 localhost::4000 경로로 들어갔을 때 제대로 동작 안하는 것이 맞음. Src views 폴더가 build에는 현재 존재하지 않기 때문.
+-> 이게 제대로 동작하는 이유는 build 페이지의 views 경로가 /src/views로 되어있기 때문에 해당 파일들을 인식하기 때문임.
+-> 나중에는 이런 client 코드도 빌드하고 손봐야 함.
+
+(Production용으로 만들고 코드를 압축하는 작업도 진행해야 함) - 나중에
+
+---
+<프론트엔드 빌드>
+ 
+웹팩은 development와 production 두개의 모드가 있음 (개발중에는 development, 완성후에는 production)
+Production의 코드가 훨씬 더 작은편
+
+Build:assets 해야함
+"Dev:assets": "webpack --mode=development" -->> 이건 dev:assets에
+=> 클라이언트는 웹팩을 사용해 동작함. 이 웹팩의 모드를 설정해줘야함. (--mode=development)
+=> 실제 서비스를 위해서 development production으로 실행하기 위해 webpack.config.cjs에 넣는 대신에 명령어로 전달
+"build:assets": "webpack --mode=prodcution" --> 이건 build:assets을 만들어서
+
+(webpack.js.org/api/cli/) 로 들어가면 웹팩 명령어들 확인 가능.
+
+: 여기까지 한 후에 build:assets을 해보면 개발중에 사용한 dev:assets으로 출력된 에셋보다 코드가 단축되어 나오는 것을 확인 가능.
+: 하지만 여전히 문제가 있는데 webpack.config.cjs에서 watch: true로 해두었기에 webpack은 현재 watch 모드에 있게 됨.
+=> 개발모드에서만 watch가 true가 되어야 함.
+: 이를 해결하기 위해 webpack.config.cjs에서의 watch:true를 지우고 dev:assets에서만 watch: true가 동작하게 스크립트 명령어를 손봐야 함. (-w 를 추가줘야함)
+"Dev:assets": "webpack --mode=development -w"
+
+이후로 build:assets을 한 후 npm start를 하면 production모드로 압축된 에셋을 불러오게 됨.
+
+이러면 완성된 형태의 백엔드와 프론트엔드 코드가 생성되므로 이것을 이후에 herok에 넣어 공유가 가능해짐.
+
+(추가로 스크립트에 "build": "npm run build:server && npm run build:assets" 을 해주면 npm run build로 프론트/백엔드 서버를 구현해줄 수 있게 됨)
+
+
+==============
+
+Heroku
+: 서버를 빠르게 배포할 수 있는 사이트
+: 우리가 만든 서버를 헤로쿠에 업로드하면 됨.
+: 계정을 만들고 대쉬보드에서 새 앱을 만듬 -> create new app
+: 이름은 이미 있는 앱들과 중복이 안되므로 주의
+
+백엔드 업로드하는 방법은 깃허브와 헤로쿠 깃 두가지 있음.
+
+1. 헤로쿠깃으로 업로드
+- 먼저 Heroku CLI를 설치해아함. (맥은 터미널 명령어로 설치할 것)
+- 설치후 heroku login를 실행해 제대로 설치되었는지 확인
+
+* git push _____ master 라는 명령어는 깃 커밋을 어디에 넣어준다는 의미 ____에 github가 오든 heroku가 오든 하게 됨
+
+: 헤로쿠는 오직 내 커밋 히스토리만 보게 됨. 즉, 커밋을 내보내지 않으면 헤로쿠는 내 코드를 볼 수 없음. 매번 코드가 수정될 때마다 다시 커밋해줘야 한다는 뜻임. (이말은 즉, 커밋되지 않는 .gitignore에 있는 값은 헤로쿠에 업로드 되지 않는다는 말)
+
+heroku logs --tail: 우리에게 서버를 보여주는 명령어 --tail은 실시간으로 로그를 보여주게 됨. (bash 커맨드 공간이 생성될 것)
+-> 이걸 한 상태로 다른 커맨드에 git push heroku master 등을 하면 무슨 동작이 이루어지고 있는지 보여주게 됨.
+
+bash로 돌아와 heroku logs --tail로 생성된 로그들을 보면 에러등을 파악가능.
+* heroku는 자동으로 npm start를 실행함
+- build/init.js를 실행하려다 실패하는데 해당 파일은 build가 끝나고 생기는 폴더이기 떄문 package.json을 손봐야 함.
+- 이건 build 명령이 추가된  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
