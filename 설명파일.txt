@@ -88,6 +88,8 @@ Heroku
 - 먼저 Heroku CLI를 설치해아함. (맥은 터미널 명령어로 설치할 것)
 - 설치후 heroku login를 실행해 제대로 설치되었는지 확인
 
+heroku git:remote -a myosotis-wetube
+
 * git push _____ master 라는 명령어는 깃 커밋을 어디에 넣어준다는 의미 ____에 github가 오든 heroku가 오든 하게 됨
 
 : 헤로쿠는 오직 내 커밋 히스토리만 보게 됨. 즉, 커밋을 내보내지 않으면 헤로쿠는 내 코드를 볼 수 없음. 매번 코드가 수정될 때마다 다시 커밋해줘야 한다는 뜻임. (이말은 즉, 커밋되지 않는 .gitignore에 있는 값은 헤로쿠에 업로드 되지 않는다는 말)
@@ -97,10 +99,23 @@ heroku logs --tail: 우리에게 서버를 보여주는 명령어 --tail은 실�
 
 bash로 돌아와 heroku logs --tail로 생성된 로그들을 보면 에러등을 파악가능.
 * heroku는 자동으로 npm start를 실행함
-- build/init.js를 실행하려다 실패하는데 해당 파일은 build가 끝나고 생기는 폴더이기 떄문 package.json을 손봐야 함.
-- 이건 build 명령이 추가된  
+- build/init.js를 실행하려다 실패하는데 해당 파일은 build가 끝나고 생기는 폴더이지만 빌드가 제대로 실행되지 않았기 떄문, package.json을 손봐야 함.
+- 이건 build 명령이 추가된 package.json을 커밋하지 않았기 때문에 발생한 문제임 (이미 커밋을 해뒀다면 발생하지 않음)
+
+git add.
+git commit -m "build script"
+git push origin master && git push heroku master -> git에도 업로드하려면 origin을 추가.
+(이러면 빌드 과정이 더 오래걸리는 걸 확인 가능 (과정자체가 조금 다름))
 
 
+다시 bash를 보면 다른 에러도 있을 수 있음
+cannot init client 라는 오류가 있다면 클라이언트를 initialize 할 수 없다는 것.
+에러가 발생한 원인을 찾기위해 쭉 살펴보면 connect-mongo에서 온 에러임을 확인 가능
+mongoUrl이나 clientPromise, client를 줘야한다고 되어있을 거
+=> .gitignore에 있는 파일(.env)를 heroku에서는 읽지 못하는데 파일에는 해당 파일의 내용들을 읽어와야 하는 부분이 있기 때문
+=> 그렇다고 .env 같은 것들을 커밋하는 방식으로 하면 안됨. 얘들을 바깥에 공개되면 안되는 것이기에
+
+(mongoDB Atlas 계정 만들기) - 몽고DB 데이터베이스를 얻을 수 있음
 
 
 
