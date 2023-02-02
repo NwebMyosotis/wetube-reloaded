@@ -201,8 +201,10 @@ heroku에서 deploy로 들어간 뒤 deployment method를 github로 설정.
 => 깃허브 로그인에서만 작동하는 if문 만들기. (avatarUrl에 github라는 글자가 포함되어야 실행된다는 의미)
 
 
+===
 
 
+앞
 
 
 
