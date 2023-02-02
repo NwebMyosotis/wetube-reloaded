@@ -183,9 +183,22 @@ mongo atalas에는 데이터가 저장되어있지 않으므로 당연히 유저
 
 이 과정에서 웹에 새로운 내용을 업데이트 할 때마다 4000으로 바꿔서 수정 후, 다시 연결하는 귀찮은 과정을 거쳐야 하는데 이걸 해결하기 위해서 OAuth Apps을 두 개 만들어 놓고 사용하기도 함. (즉, 헤로쿠에서 제공한 포트를 사용할 앱과, localhost:4000을 사용할 앱을 따로 만들라는 이야기임)
 
+** 깃허브 이미지는 CORP 에러가 날 수 있음. 만약 elements에 링크가 제대로 들어왔음에도 이미지가 깨진다면 뒤에 crossorigin을 붙여볼 것. 
 
 
+===
 
+Heroku CLI가 아니라 GitHub로 배포하는 법.
+
+heroku에서 deploy로 들어간 뒤 deployment method를 github로 설정.
+이후 계정 연결 후 들어가서 우리가 만든 레포지토리 이름(wetube-reloaded)을 검색한 뒤 찾아서 연결함.
+이젠 우리가 git push origin mater 할 때마다 바로 배포할 것임. (automatic deployment)
+-> 이러면 git push heroku mater가 아니라 git push origin mater하면 됨.
+-> git push origin master를 하면 자동으로 배포가 진행되므로 완성된 상태에서만 주의해서 해줘야 함. 할 때마다 새로 빌드할테니.
+-> 이 말은 매번 heroku가 매번 내 서버를 다시 만들기에 비디오가 유지되지 않을 거라는 의미임.
+
+* if loggedInUser.avatarUrl.includes("github")
+=> 깃허브 로그인에서만 작동하는 if문 만들기. (avatarUrl에 github라는 글자가 포함되어야 실행된다는 의미)
 
 
 
