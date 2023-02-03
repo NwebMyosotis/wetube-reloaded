@@ -249,10 +249,11 @@ export const postEdit = async (req, res) => {
       errorMessage: "Social account can't change email",
     });
   }
+  console.log(file);
   const upadateUser = await User.findByIdAndUpdate(
     _id,
     {
-      avatarUrl: file ? file.path : avatarUrl,
+      avatarUrl: file ? file.location : avatarUrl,
       name,
       username,
       email,

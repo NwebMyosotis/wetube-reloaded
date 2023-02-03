@@ -7,7 +7,7 @@ block content
         if loggedInUser.avatarUrl.includes("githubusercontent")
             img(src=user.avatarUrl, crossorigin).avatar
         else
-            img(src="/" + user.avatarUrl, crossorigin).avatar
+            img(src=user.avatarUrl, crossorigin).avatar
         h3=user.name
     div.video-grid
         each video in user.videos
