@@ -60,7 +60,7 @@ export const postLogin = async (req, res) => {
     });
   }
   console.log("🆗 LOG USER IN! COMMING SOON!");
-  req.session.loggedIn = true;
+  req.session.loggzedIn = true;
   req.session.user = user;
   req.flash("success", "Login Success.");
   return res.redirect("/");
@@ -249,10 +249,15 @@ export const postEdit = async (req, res) => {
       errorMessage: "Social account can't change email",
     });
   }
+  const isHeroku = process.env.NODE_ENV === "production";
   const upadateUser = await User.findByIdAndUpdate(
     _id,
     {
-      avatarUrl: file ? file.location : avatarUrl,
+      avatarUrl: file
+        ? isHeroku
+          ? file.location
+          : "/" + file.path
+        : avatarUrl,
       name,
       username,
       email,
